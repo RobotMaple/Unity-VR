@@ -9,9 +9,11 @@ public class Scr_VacShooter : MonoBehaviour
 {
     public float speed = 20;
     public GameObject bullet;
+    public GameObject bul;
+    GameObject b;
     public Transform barrel;
     [SerializeField]
-    private GameObject VacBag;
+    public GameObject VacBag;
     private bool laser = false;
     public GameObject rightHolster;
     // public RaycastHit hit;
@@ -20,15 +22,42 @@ public class Scr_VacShooter : MonoBehaviour
     private float shootTimer = 2.0f;
     public float targetTime = 0.0f;
     public bool inHand;
-
+    //charging
+    public float charge = 0.0f;
+    public float maxCharge = 20.0f;
+    public bool charging = false;
+    public bool fired = false;
     public float i = 0.0f;
     private void Start()
     {
+
         lr = GetComponent<LineRenderer>();
         Physics.IgnoreLayerCollision(7, 3);
     }
     public void Update()
     {
+        
+        ////charging
+        if (charging)
+        {
+            bul = null;
+            b = null;
+            charge += Time.deltaTime;
+            
+            b = bullet;
+
+            b.transform.position = barrel.transform.position;
+            b.transform.rotation = barrel.transform.rotation;
+            if (charge >= maxCharge)
+            {
+                charge = maxCharge;
+            }
+        }
+        if (fired)
+        { b = null;
+            fired = false;
+        }
+
         if (laser == true)
         {
             lr.enabled = true;
@@ -83,12 +112,13 @@ public class Scr_VacShooter : MonoBehaviour
         inHand = false;
 
     }
-    public void Fire()
-    {
 
+    public void chargingUp()
+    {
+        
         if (targetTime <= 0.0f)
         {
-            Debug.Log("Trigger Pulled - Fire Script Ran");
+            charging = true;
             Scr_VacSucker Currentarrow = VacBag.GetComponent<Scr_VacSucker>();
             if (Currentarrow.Vacbag[0] != null)
             {
@@ -96,22 +126,46 @@ public class Scr_VacShooter : MonoBehaviour
                 Debug.Log("Shooting: " + Currentarrow.Vacbag[0].gameObject.name);
                 bullet = Instantiate(Currentarrow.Vacbag[0].gameObject);
                 SuckableItems curbullet = bullet.GetComponent<SuckableItems>();
-                Destroy(Currentarrow.Vacbag[0]);
-                RemoveAt(Currentarrow.Vacbag, 0); // removes Color.white.
                 curbullet.ScaleToTarget(new Vector3(1, 1, 1), 1f); // GROW Feature
-                //bullet.GetComponent<Rigidbody>().isKinematic = true;
-                bullet.SetActive(enabled);
-                bullet.transform.position = barrel.transform.position;
-                bullet.transform.rotation = barrel.transform.rotation;
+                Destroy(Currentarrow.Vacbag[0]);
+               RemoveAt(Currentarrow.Vacbag, 0); // removes Color.white.
 
-                   // bullet.GetComponent<Rigidbody>().isKinematic = false ;
-                    //bullet.GetComponent<Rigidbody>().isKinematic = false;
-                    bullet.GetComponent<Rigidbody>().velocity = speed * barrel.forward;
-                    //bullet.GetComponent<SuckableItems>().GotShot(speed, barrel);
-                    targetTime = shootTimer;
-                
+                bullet.GetComponent<Rigidbody>().isKinematic = true;
+                bullet.SetActive(enabled);
+                b = bullet;
+
+
             }
         }
+
+    }
+    public void release()
+    {
+        if (targetTime <= 0.0f)
+        {
+
+                charging = false;
+
+                bul = b;
+                bul.GetComponent<Rigidbody>().isKinematic = false;
+                Fire(bul, charge);
+                charge = 0.0f;
+               
+            
+        }
+    }
+    public void Fire(GameObject item, float charge)
+    {
+
+
+                    item.GetComponent<Rigidbody>().velocity = (speed * charge) * barrel.forward;
+        //bullet.GetComponent<SuckableItems>().GotShot(speed, barrel);
+        fired = true;
+        //bullet = null;
+        bul = null;
+        b = null;
+        targetTime = shootTimer;
+
 
     }
     public void ScaleToTarget(Vector3 targetScale, float duration)
