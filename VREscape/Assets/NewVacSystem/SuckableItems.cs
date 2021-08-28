@@ -10,8 +10,11 @@ public class SuckableItems : MonoBehaviour
     public GameObject target;
     public GameObject nozzle;
     public float i = 0.0f;
-    // Start is called before the first frame update
 
+    // Start is called before the first frame update
+    //sucking vars
+    public bool sucking;
+    public GameObject vacSucker;
     public void Awake()
     {
            beingSucked = false;
@@ -22,11 +25,14 @@ public class SuckableItems : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        
         i -= Time.deltaTime;
         //Sucked();
-        if (beingSucked)
+        Vector3 relativePos = nozzle.transform.position - transform.position;
+        sucking = nozzle.GetComponent<Scr_VacSucker>().sucking;
+        if (beingSucked && sucking)
         {
-            Vector3 relativePos = nozzle.transform.position - transform.position;
+
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 6 * Time.deltaTime);
            // lookAtSlowly(transform, new Vector3(0, 0, 0), 15);
@@ -48,6 +54,7 @@ public class SuckableItems : MonoBehaviour
     {
         StartCoroutine(ScaleToTargetCoroutine(targetScale, duration));
     }
+
     private IEnumerator ScaleToTargetCoroutine(Vector3 targetScale, float duration)
     {
         Vector3 startScale = transform.localScale;

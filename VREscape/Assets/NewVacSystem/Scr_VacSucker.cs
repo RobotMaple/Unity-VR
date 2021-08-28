@@ -13,28 +13,42 @@ public class Scr_VacSucker : MonoBehaviour
     [SerializeField]
     public GameObject spark;
     [SerializeField] private float speed;
+    public bool sucking;
+    public GameObject vacSucker;
+    public void Update()
+    {
+        sucking = vacSucker.GetComponent<Scr_VacSuckerZone>().suck;
+        
+        if (sucking)
+        {
 
 
+
+        }
+    }
     public void OnTriggerEnter(Collider other)
     {
+        if(sucking)
+        { 
         SuckableItems item = other.GetComponent<SuckableItems>();
         Debug.Log("hit det");
-        if (other.gameObject.layer == LayerMask.NameToLayer("item"))
-        {
-            for (int i = 0; i < Vacbag.Length; i++)
+            if (other.gameObject.layer == LayerMask.NameToLayer("item"))
             {
-                if (Vacbag[i] == null)
+                for (int i = 0; i < Vacbag.Length; i++)
                 {
-                    Vacbag[i] = other.gameObject;
-                    Debug.Log("slot " + i + " = " + Vacbag[i]);
-                    item.Sucked();
-                    //other.gameObject.SetActive(false);
-                    ParticleSystem an = spark.GetComponent<ParticleSystem>();
-                    an.Play();
-                    break;
+                    if (Vacbag[i] == null)
+                    {
+                        Vacbag[i] = other.gameObject;
+                        Debug.Log("slot " + i + " = " + Vacbag[i]);
+                        item.Sucked();
+                        //other.gameObject.SetActive(false);
+                        ParticleSystem an = spark.GetComponent<ParticleSystem>();
+                        an.Play();
+                        break;
+
+                    }
 
                 }
-
             }
         }//
     }

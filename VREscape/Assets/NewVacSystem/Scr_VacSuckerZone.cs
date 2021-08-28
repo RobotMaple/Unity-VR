@@ -71,4 +71,20 @@ public class Scr_VacSuckerZone : MonoBehaviour
             }
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("item"))
+        {
+            /*  Debug.Log("testing");
+              Vector3 relativePos = NozzlePos.transform.position - other.gameObject.transform.position;
+              Rigidbody Rbody = other.gameObject.GetComponent<Rigidbody>();
+              Rbody.AddForce(speed * relativePos);*/
+            SuckableItems items = other.gameObject.GetComponent<SuckableItems>();
+
+            items.beingSucked = false;
+            it = other.gameObject;
+            //items.FollowTargetWithRotation(other.gameObject, NozzlePos.transform);
+            //  items = true;
+        }
+    }
 }
