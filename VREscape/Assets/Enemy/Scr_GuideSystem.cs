@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Scr_GuideSystem : MonoBehaviour
 {
     [SerializeField]
-    public Transform target;
+    public GameObject target;
     public NavMeshAgent agent;
     public float maxDis = 0.5f;
     public float jumpspd = 2.0f;
@@ -24,7 +24,7 @@ public class Scr_GuideSystem : MonoBehaviour
         
         
         //i -= Time.deltaTime;
-        Vector3 targetPos = target.position;
+        Vector3 targetPos = target.transform.position;
 
         agent.SetDestination(targetPos);
 

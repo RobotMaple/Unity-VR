@@ -18,11 +18,19 @@ public class Scr_EnemyAI : MonoBehaviour
     [SerializeField]  public GameObject parent;
     [SerializeField] public Animator AnimatorController;
     [SerializeField] public GameObject Guide;
-    [SerializeField] public float attackDis = 1.5f;
+    [SerializeField] public float attackDis = 2.5f;
     float timer = 0f;
     public float timerT;
     [SerializeField] public ConfigurableJoint stablizer;
 
+
+    // 
+    public GameObject Tar;
+    Animator m_Animator;
+    string m_ClipName;
+    AnimatorClipInfo[] m_CurrentClipInfo;
+    float m_CurrentClipLength;
+    float i = 0;
     private void Update()
     {
         JointDrive AdriveJoint = new JointDrive();
@@ -79,7 +87,8 @@ public class Scr_EnemyAI : MonoBehaviour
             dying();
         }
         var En = Guide.GetComponent<Scr_GuideSystem>().enemyPar;
-        var Tar = Guide.GetComponent<Scr_GuideSystem>().target;
+        Tar = Guide.GetComponent<Scr_GuideSystem>().target;
+        
         var distance = Vector3.Distance(En.transform.position, Tar.transform.position);
       //  Debug.Log("asd" + distance);
 
@@ -90,10 +99,32 @@ public class Scr_EnemyAI : MonoBehaviour
 
 
             AnimatorController.SetBool("attack", true);
+            // Get them_Animator, which you attach to the GameObject you intend to animate.
+            m_Animator = AnimatorController.gameObject.GetComponent<Animator>();
+            //Fetch the current Animation clip information for the base layer
+            m_CurrentClipInfo = this.m_Animator.GetCurrentAnimatorClipInfo(0);
+           
+            //Access the current length of the clip
+            m_CurrentClipLength = m_CurrentClipInfo[0].clip.length;
+            //Access the Animation clip name
+
+            Debug.Log(m_ClipName);
+            i += Time.deltaTime;
+            if (i >= m_CurrentClipLength && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+
+                attack();
+            }
         }
         else
         { AnimatorController.SetBool("attack", false); }
 
+    }
+    public void attack()
+    {
+        Tar.GetComponent<scr_playerVars>().gotHitP();
+        Debug.Log("gothitplayer");
+        i = 0;
     }
     public void GotHit()
     {
