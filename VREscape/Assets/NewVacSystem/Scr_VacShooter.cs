@@ -25,6 +25,8 @@ public class Scr_VacShooter : MonoBehaviour
     private float shootTimer = 2.0f;
     public float targetTime = 0.0f;
     public float speed = 20;
+
+    //bullet obj temp vars
     public GameObject bullet;
     public GameObject bul;
     public GameObject b;
@@ -71,6 +73,8 @@ public class Scr_VacShooter : MonoBehaviour
                 }
             }
             else { lr.SetPosition(1, transform.forward * 5000); }
+
+            lr.material.SetColor("_Color", new Color(1f, 1f, 1f, 100/charge)); // create new material for this to have a dynamic alpha change.
         }
         else { lr.enabled = false; }
         #endregion
@@ -99,18 +103,18 @@ public class Scr_VacShooter : MonoBehaviour
     }
     public void PickedUp() // Picking up VacSystem Shooter
     {
-        laser = true;
+        
         inHand = true;
     }
     public void LetGo() // Letting go VacSystem Shooter
     {
-        laser = false;
+       
         inHand = false;
     }
 
     public void chargingUp() // 
     {
-        
+        laser = true;
         if (targetTime <= 0.0f)
         {
             charging = true;
@@ -135,6 +139,8 @@ public class Scr_VacShooter : MonoBehaviour
 
     public void release()
     {
+
+        laser = false;
         if (targetTime <= 0.0f)
         {
                 charging = false;

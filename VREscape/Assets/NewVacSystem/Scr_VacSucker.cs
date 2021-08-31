@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Un yEngine;
 using UnityEngine.XR;
 using UnityEditor.XR.Interaction.Toolkit;
 
@@ -17,21 +17,14 @@ public class Scr_VacSucker : MonoBehaviour
     public GameObject vacSucker;
     public void Update()
     {
-        sucking = vacSucker.GetComponent<Scr_VacSuckerZone>().suck;
-        
-        if (sucking)
-        {
-
-
-
-        }
+        sucking = vacSucker.GetComponent<Scr_VacSuckerZone>().suck; // bool state for if player is pulling trigger
     }
     public void OnTriggerEnter(Collider other)
     {
         if(sucking)
         { 
-        SuckableItems item = other.GetComponent<SuckableItems>();
-        Debug.Log("hit det");
+            SuckableItems item = other.GetComponent<SuckableItems>();
+            Debug.Log("hit det");
             if (other.gameObject.layer == LayerMask.NameToLayer("item"))
             {
                 for (int i = 0; i < Vacbag.Length; i++)
@@ -50,6 +43,6 @@ public class Scr_VacSucker : MonoBehaviour
 
                 }
             }
-        }//
+        }
     }
 }
