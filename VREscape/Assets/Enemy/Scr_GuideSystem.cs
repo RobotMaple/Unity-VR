@@ -45,7 +45,7 @@ public class Scr_GuideSystem : MonoBehaviour
         bool ragdollstate = enemy.ragdollP;
         if (ragdollstate == false)
         {
-            enemybody.AddForce((transform.position - enemybody.transform.position) * (jumpspd)); Debug.Log("Jump");
+            enemybody.AddForce((transform.position - enemybody.transform.position) * (jumpspd));// Debug.Log("Jump");
             enemybody.AddForce(transform.up * jumpspd);
         }
     }

@@ -36,10 +36,10 @@ public class SuckableItems : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 6 * Time.deltaTime);
            // lookAtSlowly(transform, new Vector3(0, 0, 0), 15);
-            FollowTargetWithRotation(target.gameObject, nozzle.transform);
+            FollowTargetWithRotation(target.gameObject, nozzle.transform, speed);
         }
     }
-    public void FollowTargetWithRotation(GameObject target, Transform endPos)
+    public void FollowTargetWithRotation(GameObject target, Transform endPos, float SuckSpeed)
     {
         Vector3 newPosition = target.transform.position;
         float step = speed * Time.deltaTime;
@@ -49,10 +49,12 @@ public class SuckableItems : MonoBehaviour
     public void Sucked()
     {
         ScaleToTarget(new Vector3(0, 0, 0), .2f);
+
     }
     public void ScaleToTarget(Vector3 targetScale, float duration)
     {
         StartCoroutine(ScaleToTargetCoroutine(targetScale, duration));
+        //gameObject.SetActive(false);
     }
 
     private IEnumerator ScaleToTargetCoroutine(Vector3 targetScale, float duration)

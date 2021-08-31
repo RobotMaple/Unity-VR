@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Un yEngine;
+using UnityEngine;
 using UnityEngine.XR;
 using UnityEditor.XR.Interaction.Toolkit;
 
@@ -27,14 +27,14 @@ public class Scr_VacSucker : MonoBehaviour
             Debug.Log("hit det");
             if (other.gameObject.layer == LayerMask.NameToLayer("item"))
             {
-                for (int i = 0; i < Vacbag.Length; i++)
+                for (int i = 0; i <= 10; i++)
                 {
-                    if (Vacbag[i] == null)
+                    if (Vacbag[i] == null && Vacbag[-1] == null)
                     {
                         Vacbag[i] = other.gameObject;
                         Debug.Log("slot " + i + " = " + Vacbag[i]);
-                        item.Sucked();
-                        //other.gameObject.SetActive(false);
+                        other.GetComponent<SuckableItems>().Sucked();
+                        
                         ParticleSystem an = spark.GetComponent<ParticleSystem>();
                         an.Play();
                         break;
