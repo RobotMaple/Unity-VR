@@ -29,7 +29,7 @@ public class Scr_VacSucker : MonoBehaviour
             {
                 for (int i = 0; i <= 10; i++)
                 {
-                    if (Vacbag[i] == null && Vacbag[-1] == null)
+                    if (Vacbag[i] == null )
                     {
                         Vacbag[i] = other.gameObject;
                         Debug.Log("slot " + i + " = " + Vacbag[i]);
