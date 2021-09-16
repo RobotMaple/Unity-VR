@@ -19,6 +19,7 @@ public class Scr_VacShooter : MonoBehaviour
     //Gun Vars & Charging Mechanic
     public float charge = 0.0f;
     public float maxCharge = 10.0f;
+
     public bool charging = false;
     public bool fired = false;
     public float i = 0.0f; //temp var
@@ -26,33 +27,35 @@ public class Scr_VacShooter : MonoBehaviour
     public float targetTime = 0.0f;
     public float speed = 20;
 
-    //bullet obj temp vars
-    public GameObject bullet;
+    //Currentarrow.Vacbag[0] obj temp vars
     public GameObject bul;
     public GameObject b;
     public Transform barrel;
-
+    public Scr_VacSucker Currentarrow;// = VacBag.GetComponent<Scr_VacSucker>();
     private void Start()
     {
+        Currentarrow = VacBag.GetComponent<Scr_VacSucker>();
         lr = GetComponent<LineRenderer>();
         Physics.IgnoreLayerCollision(7, 3);
     }
+    
     public void Update()
-    {   
+    {
+        
         /*Charging*/
         if (charging)
         {
             
-            if (bullet != null)
+            if (Currentarrow.Vacbag[0] != null)
             {
                 charge += Time.deltaTime;
-                b = bullet;
-                bullet.transform.position = barrel.transform.position;
-                bullet.transform.rotation = barrel.transform.rotation;
+                b = Currentarrow.Vacbag[0];
+                Currentarrow.Vacbag[0].transform.position = barrel.transform.position;
+                Currentarrow.Vacbag[0].transform.rotation = barrel.transform.rotation;
                 if (charge >= maxCharge)
                 {
                     charge = maxCharge;
-                }
+                } 
             }
         }
 
@@ -123,23 +126,31 @@ public class Scr_VacShooter : MonoBehaviour
     public void chargingUp() // 
     {
         laser = true;
-
+        
         if (targetTime <= 0.0f )
         {
             charging = true;
-            Scr_VacSucker Currentarrow = VacBag.GetComponent<Scr_VacSucker>();
+            
             if (Currentarrow.Vacbag[0] != null)
             {
+
+                //Storing Scale of item
+               // Vector3 itemSize 
+                // Currentarrow.Vacbag[0].transform.localScale = new Vector3(0, 0, 0);
                 i = 1.0f;
                 Debug.Log("Shooting: " + Currentarrow.Vacbag[0].gameObject.name);
-                bullet = Instantiate(Currentarrow.Vacbag[0].gameObject);
-                SuckableItems curbullet = bullet.GetComponent<SuckableItems>();
+               // SuckableItems Currentarrow.Vacbag[0] = Currentarrow.Vacbag[0].GetComponent<SuckableItems>();
                
-                Destroy(Currentarrow.Vacbag[0]);
-                RemoveAt(Currentarrow.Vacbag, 0); // removes Color.white.
-                bullet.GetComponent<SuckableItems>().ScaleToTarget(new Vector3(1, 1, 1), 1f); // GROW Feature
-                bullet.GetComponent<Rigidbody>().isKinematic = true;
-                bullet.SetActive(enabled);
+                //GameObject.Destroy(Currentarrow.Vacbag[0]);
+                 // removes Color.white.
+
+                Vector3 itemSize = Currentarrow.Vacbag[0].transform.localScale;
+                Currentarrow.Vacbag[0].SetActive(enabled);
+                Currentarrow.Vacbag[0].GetComponent<SuckableItems>().ScaleToTarget(new Vector3(0, 0, 0), itemSize, 1.5f); // GROW Feature
+                Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = true;
+               
+                
+
             }
         }
 
@@ -149,12 +160,13 @@ public class Scr_VacShooter : MonoBehaviour
     {
 
         laser = false;
-        if (targetTime <= 0.0f && bullet != null)
+        if (targetTime <= 0.0f && Currentarrow.Vacbag[0] != null)
         {
                 charging = false;
 
-                bullet.GetComponent<Rigidbody>().isKinematic = false;
-                Fire(bullet, charge);
+                Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = false;
+                if (charge <= 1.0f) { charge = 1f; }
+                Fire(Currentarrow.Vacbag[0], charge);
                 Debug.Log("Charge: " + charge);
                 charge = 0.0f;    
         }
@@ -163,7 +175,15 @@ public class Scr_VacShooter : MonoBehaviour
     {
         item.GetComponent<Rigidbody>().velocity = (speed * charge) * barrel.forward;
         fired = true;
-        bullet = null;
+
+        for (int a = 0; a < Currentarrow.Vacbag.Length - 1; a++)
+        {
+            // moving elements downwards, to fill the gap at [index]
+            Currentarrow.Vacbag[a] = Currentarrow.Vacbag[a + 1];
+        }
+        // finally, let's decrement Array's size by one
+        Array.Resize(ref Currentarrow.Vacbag, Currentarrow.Vacbag.Length - 1);
+        Array.Resize(ref Currentarrow.Vacbag, Currentarrow.Vacbag.Length + 1);
         targetTime = shootTimer;
     }
 

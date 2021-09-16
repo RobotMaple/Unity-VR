@@ -3,7 +3,7 @@
   "Assemblies": [
     {
       "FullName": "Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2021-08-31T14:22:34.4679951Z"
+      "LastWriteTime": "2021-09-15T15:08:36.0497268Z"
     },
     {
       "FullName": "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51",
@@ -19,7 +19,7 @@
     },
     {
       "FullName": "Unity.Animation.Rigging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2021-08-31T14:22:37.7067295Z"
+      "LastWriteTime": "2021-09-15T15:08:39.1150354Z"
     },
     {
       "FullName": "mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",

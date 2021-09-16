@@ -7,7 +7,7 @@ public class Scr_VacSuckerZone : MonoBehaviour
 {
     public bool suck;
     public bool isColliding;
-    public GameObject leftHolster;
+    public GameObject leftHolster, nozzle;
     public Collider suckZone;
     public GameObject it;
     public bool inHand;
@@ -30,8 +30,8 @@ public class Scr_VacSuckerZone : MonoBehaviour
         } 
     }
     public void sucking()
-    {   
-        suck = true;
+    {
+          suck = true;
     }
     public void NotSucking()
     {    
@@ -45,26 +45,24 @@ public class Scr_VacSuckerZone : MonoBehaviour
     {
         inHand = false;
     }
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other) // Items being sucked up within collider
     {
         if (suck)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("item"))
             {
                 SuckableItems items = other.gameObject.GetComponent<SuckableItems>();
+                items.GetComponent<SuckableItems>().Sucked();
+                //it = other.gameObject; // not sure what this does  or why I wrote it
+                //items.beingSucked = true;
 
-                items.beingSucked = true;
-                it = other.gameObject;
             }
         }
-    }
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("item"))
+        else
         {
             SuckableItems items = other.gameObject.GetComponent<SuckableItems>();
             items.beingSucked = false;
-            //it = other.gameObject;
+
         }
     }
 }

@@ -21,26 +21,27 @@ public class Scr_VacSucker : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if(sucking)
-        { 
-            SuckableItems item = other.GetComponent<SuckableItems>();
-            Debug.Log("hit det");
+        if(sucking && Vacbag[Vacbag.Length - 1] == null)
+        {
             if (other.gameObject.layer == LayerMask.NameToLayer("item"))
             {
-                for (int i = 0; i <= 10; i++)
+                for (int i = 0; i <= Vacbag.Length; i++)
                 {
                     if (Vacbag[i] == null )
                     {
-                        Vacbag[i] = other.gameObject;
-                        Debug.Log("slot " + i + " = " + Vacbag[i]);
-                        other.GetComponent<SuckableItems>().Sucked();
+                        // Item starts to shrink
+                        StartCoroutine(other.gameObject.GetComponent<SuckableItems>().Shrink(other.gameObject, other.gameObject.transform.localScale, new Vector3(0, 0, 0), .2f));
                         
+                        Vacbag[i] = Instantiate(other.gameObject);
+                        Vacbag[i].SetActive(false);
+
+                        
+                        Debug.Log("slot " + i + " = " + Vacbag[i]);
                         ParticleSystem an = spark.GetComponent<ParticleSystem>();
                         an.Play();
                         break;
 
                     }
-
                 }
             }
         }
