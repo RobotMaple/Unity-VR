@@ -10,11 +10,16 @@ public class ScrEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //transform.position = target.position;
         Vector3 direction = target.position - transform.position;
-        Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
+        if (target.GetComponent<Scr_GuideSystem>().target != null)
+        {
+            Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
+            transform.rotation = rot;
+        }
         //Apply the rotation 
-        transform.rotation = rot;
+
         // put 0 on the axys you do not want for the rotation object to rotate
-        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y,0 );
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
 }

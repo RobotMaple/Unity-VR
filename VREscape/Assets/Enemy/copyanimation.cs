@@ -9,8 +9,10 @@ public class copyanimation : MonoBehaviour
 
     [SerializeField ]
     public GameObject Main;
-    
-    
+    public JointDrive driveJoint = new JointDrive();
+    public float max = 1500.0f;
+    public float dlam = 10.0f;
+
     Quaternion targetInitialRotation;
     [SerializeField]
     public bool ragdoll;
@@ -24,18 +26,15 @@ public class copyanimation : MonoBehaviour
 
     }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void FixedUpdate()
+
+    public void Update()
     {
 
         ragdoll = Main.GetComponent<Scr_EnemyAI>().ragdollP;
-        JointDrive driveJoint = new JointDrive();     
-        driveJoint.positionSpring = 1500.0f;
-        driveJoint.maximumForce = 1500.0f;
-        driveJoint.positionDamper = 10.0f;
+       // JointDrive driveJoint  
+        driveJoint.positionSpring = max;
+        driveJoint.maximumForce = max;
+        driveJoint.positionDamper = dlam;
         JointDrive RdriveJoint = new JointDrive();
         RdriveJoint.positionSpring = 10.0f;
         RdriveJoint.maximumForce = 10.0f;
@@ -44,7 +43,7 @@ public class copyanimation : MonoBehaviour
         ConfigurableJoint joint = gameObject.GetComponent<ConfigurableJoint>();
         //Debug.Log("joint" + joint.angularXDrive.positionSpring);
 
-        if (!ragdoll && Main.GetComponent<Scr_EnemyAI>().timerT >= 3)
+        if (!ragdoll)
         {
             this.m_ConfigurableJoint.targetRotation = copyRotation();
             joint.angularXDrive = driveJoint;

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Scr_GuideSystem : MonoBehaviour
 {
     [SerializeField]
-    public GameObject target;
+    public GameObject target = null;
     public NavMeshAgent agent;
     public float maxDis = 0.5f;
     public float jumpspd = 2.0f;
@@ -19,7 +19,7 @@ public class Scr_GuideSystem : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
 
     }
-   public void Update()
+   public void FixedUpdate()
     {
         
         

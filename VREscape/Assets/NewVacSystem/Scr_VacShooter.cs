@@ -127,8 +127,7 @@ public class Scr_VacShooter : MonoBehaviour
     {
         laser = true;
         
-        if (targetTime <= 0.0f )
-        {
+
             charging = true;
             
             if (Currentarrow.Vacbag[0] != null)
@@ -137,7 +136,7 @@ public class Scr_VacShooter : MonoBehaviour
                 //Storing Scale of item
                // Vector3 itemSize 
                 // Currentarrow.Vacbag[0].transform.localScale = new Vector3(0, 0, 0);
-                i = 1.0f;
+                //i = 1.0f;
                 Debug.Log("Shooting: " + Currentarrow.Vacbag[0].gameObject.name);
                // SuckableItems Currentarrow.Vacbag[0] = Currentarrow.Vacbag[0].GetComponent<SuckableItems>();
                
@@ -146,13 +145,13 @@ public class Scr_VacShooter : MonoBehaviour
 
                 Vector3 itemSize = Currentarrow.Vacbag[0].transform.localScale;
                 Currentarrow.Vacbag[0].SetActive(enabled);
-                Currentarrow.Vacbag[0].GetComponent<SuckableItems>().ScaleToTarget(new Vector3(0, 0, 0), itemSize, 1.5f); // GROW Feature
+                Currentarrow.Vacbag[0].GetComponent<SuckableItems>().ScaleToTarget(new Vector3(0, 0, 0), itemSize, .5f); // GROW Feature
                 Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = true;
                
                 
 
             }
-        }
+        
 
     }
 
@@ -160,19 +159,21 @@ public class Scr_VacShooter : MonoBehaviour
     {
 
         laser = false;
-        if (targetTime <= 0.0f && Currentarrow.Vacbag[0] != null)
+        if (Currentarrow.Vacbag[0] != null)
         {
                 charging = false;
 
-                Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = false;
+                //Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = false;
                 if (charge <= 1.0f) { charge = 1f; }
                 Fire(Currentarrow.Vacbag[0], charge);
                 Debug.Log("Charge: " + charge);
-                charge = 0.0f;    
+                charge = 0.0f;
+                i = 1.0f;//
         }
     }
     public void Fire(GameObject item, float charge)
     {
+        item.GetComponent<Rigidbody>().isKinematic = false;
         item.GetComponent<Rigidbody>().velocity = (speed * charge) * barrel.forward;
         fired = true;
 

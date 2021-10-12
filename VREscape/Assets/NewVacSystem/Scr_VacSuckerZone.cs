@@ -12,7 +12,7 @@ public class Scr_VacSuckerZone : MonoBehaviour
     public GameObject it;
     public bool inHand;
     public ParticleSystem suckParticle;
-    private void Update()
+    public void FixedUpdate()
     {
         suckZone.enabled = false;
         if (suck)
@@ -53,16 +53,11 @@ public class Scr_VacSuckerZone : MonoBehaviour
             {
                 SuckableItems items = other.gameObject.GetComponent<SuckableItems>();
                 items.GetComponent<SuckableItems>().Sucked();
-                //it = other.gameObject; // not sure what this does  or why I wrote it
-                //items.beingSucked = true;
-
             }
         }
         else
         {
             SuckableItems items = other.gameObject.GetComponent<SuckableItems>();
-            items.beingSucked = false;
-
         }
     }
 }

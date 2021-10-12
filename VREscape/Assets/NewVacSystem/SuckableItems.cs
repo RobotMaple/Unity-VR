@@ -6,7 +6,7 @@ using UnityEditor.XR.Interaction.Toolkit;
 public class SuckableItems : MonoBehaviour
 {
     public bool beingSucked;
-    public float speed = 1;
+    public float speed = 3; // Suck Speed
     public GameObject target;
     public GameObject nozzle;
     public float i = 0.0f;
@@ -23,18 +23,19 @@ public class SuckableItems : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    public void FixedUpdate()
     {
         beingSucked = false;
         i -= Time.deltaTime;
-        //Sucked();
-        Vector3 relativePos = nozzle.transform.position - transform.position;
-        sucking = nozzle.GetComponent<Scr_VacSucker>().sucking;
+
+        Vector3 relativePos = nozzle.transform.position - transform.position; // getting angle for shooting
+        sucking = nozzle.GetComponent<Scr_VacSucker>().sucking; // Bool State 
+
+        // 
         if (beingSucked && sucking)
         {
             Quaternion toRotation = Quaternion.LookRotation(relativePos);
             transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 6 * Time.deltaTime);
-           // lookAtSlowly(transform, new Vector3(0, 0, 0), 15);
             FollowTargetWithRotation(target.gameObject, nozzle.transform, speed);
         }
     }
@@ -56,23 +57,15 @@ public class SuckableItems : MonoBehaviour
     {
         beingSucked = true;
         FollowTargetWithRotation(target.gameObject, nozzle.transform, speed);
-        
-        
     }
     public void ScaleToTarget(Vector3 startScale, Vector3 targetScale, float duration)
     {
         StartCoroutine(ScaleToTargetCoroutine(startScale,targetScale, duration));
-        // Object.Destroy(gameObject);
-        //gameObject.SetActive(false);yield return null;
-        
     }
 
     private IEnumerator ScaleToTargetCoroutine(Vector3 startScale, Vector3 targetScale, float duration)
     {
-        //Vector3 startScale = transform.localScale;
-        //transform.localScale = new Vector3( 0,0,0);
         float timer = 0.0f;
-
         while (timer < duration)
         {
             timer += Time.deltaTime;
