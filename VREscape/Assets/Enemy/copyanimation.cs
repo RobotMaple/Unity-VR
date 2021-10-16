@@ -7,11 +7,9 @@ public class copyanimation : MonoBehaviour
     [SerializeField] private Transform targetLimb;
     [SerializeField] private ConfigurableJoint m_ConfigurableJoint;
 
-    [SerializeField ]
+    [SerializeField]
     public GameObject Main;
-    public JointDrive driveJoint = new JointDrive();
-    public float max = 1500.0f;
-    public float dlam = 10.0f;
+
 
     Quaternion targetInitialRotation;
     [SerializeField]
@@ -20,21 +18,24 @@ public class copyanimation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         this.m_ConfigurableJoint = this.GetComponent<ConfigurableJoint>();
         this.targetInitialRotation = this.targetLimb.transform.localRotation;
 
     }
     // Update is called once per frame
+    void Update()
+    {
 
-    public void Update()
+    }
+    public void FixedUpdate()
     {
 
         ragdoll = Main.GetComponent<Scr_EnemyAI>().ragdollP;
-       // JointDrive driveJoint  
-        driveJoint.positionSpring = max;
-        driveJoint.maximumForce = max;
-        driveJoint.positionDamper = dlam;
+        JointDrive driveJoint = new JointDrive();
+        driveJoint.positionSpring = 1000.0f;
+        driveJoint.maximumForce = 1000.0f;
+        driveJoint.positionDamper = 50.0f;
         JointDrive RdriveJoint = new JointDrive();
         RdriveJoint.positionSpring = 10.0f;
         RdriveJoint.maximumForce = 10.0f;
@@ -43,7 +44,7 @@ public class copyanimation : MonoBehaviour
         ConfigurableJoint joint = gameObject.GetComponent<ConfigurableJoint>();
         //Debug.Log("joint" + joint.angularXDrive.positionSpring);
 
-        if (!ragdoll)
+        if (!ragdoll && Main.GetComponent<Scr_EnemyAI>().timerT >= 3)
         {
             this.m_ConfigurableJoint.targetRotation = copyRotation();
             joint.angularXDrive = driveJoint;
@@ -52,7 +53,8 @@ public class copyanimation : MonoBehaviour
 
 
         }
-        else {
+        else
+        {
             joint.angularXDrive = RdriveJoint;
             joint.angularYZDrive = RdriveJoint;
         }
@@ -62,14 +64,14 @@ public class copyanimation : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         //Debug.Log("mag" + vel.magnitude); 
-        
-         if (other.gameObject.layer == LayerMask.NameToLayer("item") && other.rigidbody.velocity.magnitude > 1.5f) 
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("item") && other.rigidbody.velocity.magnitude > 1.5f)
         {
-            
+
             Debug.Log("test " + ragdoll);
-            
-            
-                Main.GetComponent<Scr_EnemyAI>().GotHit();
+
+
+            Main.GetComponent<Scr_EnemyAI>().GotHit();
 
 
 
