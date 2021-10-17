@@ -8,7 +8,7 @@ public class Scr_EnemyAI : MonoBehaviour
 
     /*Scr_EnemyAI
     * Purpose: Controls Enemy Statemachine
-    * Date: 14/7/2021
+    * Date: 14/10/2021
     */
     public bool ragdollP = false;
     public float targetTime = 5;
@@ -33,16 +33,20 @@ public class Scr_EnemyAI : MonoBehaviour
     AnimatorClipInfo[] m_CurrentClipInfo;
     float m_CurrentClipLength;
     float i = 0;
-    private void Update()
+    public void Start()
     {
         JointDrive AdriveJoint = new JointDrive();
-        AdriveJoint.positionSpring = 1000000.0f;
-        AdriveJoint.maximumForce = 100000000.0f;
+        AdriveJoint.positionSpring = 1000.0f;
+        AdriveJoint.maximumForce = 1000.0f;
         AdriveJoint.positionDamper = 10.0f;
         JointDrive DdriveJoint = new JointDrive();
         DdriveJoint.positionSpring = 0.0f;
         DdriveJoint.maximumForce = 0.0f;
         DdriveJoint.positionDamper = 0.0f;
+    }
+    private void Update()
+    {
+
         //stablizer.angularXDrive = AdriveJoint;
         //stablizer.angularYZDrive = AdriveJoint;
         if (ragdollP) // checks to see if ragdoll state is active
@@ -59,15 +63,12 @@ public class Scr_EnemyAI : MonoBehaviour
                 {
                     AnimatorController.SetBool("ragdoll", true);
 
-                    timerT = timer += Time.deltaTime;
+                    timerT = timer += Time.deltaTime; // THIS Shit is weird, why do we have 3 vars for a ragdoll timer. Also shouldn't we be using the animation check instead
                     if (timerT >= 3)
                     {
 
-                        stablizer.angularXDrive = AdriveJoint;
-                        stablizer.angularYZDrive = AdriveJoint;
-                        AnimatorController.SetBool("ragdoll", false);
-                        AnimatorController.SetBool("Getting up", true);
-                        AnimatorController.SetBool("attack", false);
+                        startCoroutine(getup());
+
 
                         timer = 0;
                         ragdollP = false;
@@ -123,6 +124,17 @@ public class Scr_EnemyAI : MonoBehaviour
         { AnimatorController.SetBool("attack", false); }
 
     }
+    public void getup()
+    {
+        AnimatorController.SetBool("ragdoll", false);
+        AnimatorController.SetBool("Getting up", true);
+        AnimatorController.SetBool("attack", false);
+        if(this.animator.GetCurrentAnimatorStateInfo(0).IsName("Getting up")
+        {
+            stablizer.angularXDrive = AdriveJoint;
+            stablizer.angularYZDrive = AdriveJoint;
+        }
+    }
     public void attack()
     {
         Tar.GetComponent<scr_playerVars>().gotHitP();
@@ -136,9 +148,11 @@ public class Scr_EnemyAI : MonoBehaviour
             enemyHealth -= 30;
             ragdollP = true;
             Debug.Log("gothit");
+            // Audio Stuff
             AudioClip aClip = aLibAudio.GetComponent<RandomAudioClip>().GetRandomAudioClip();
             audioData.clip = aClip;
             audioData.Play();
+
             targetTime = 5;
         }
 

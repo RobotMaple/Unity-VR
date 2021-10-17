@@ -32,26 +32,25 @@ public class copyanimation : MonoBehaviour
     {
 
         ragdoll = Main.GetComponent<Scr_EnemyAI>().ragdollP;
+        //Config for when enemy is NOT in ragdoll state joints strength is active
         JointDrive driveJoint = new JointDrive();
         driveJoint.positionSpring = 1000.0f;
         driveJoint.maximumForce = 1000.0f;
         driveJoint.positionDamper = 50.0f;
+        //Config for when enemy is in ragdoll state joints strength is lowered
         JointDrive RdriveJoint = new JointDrive();
         RdriveJoint.positionSpring = 10.0f;
         RdriveJoint.maximumForce = 10.0f;
-        RdriveJoint.positionDamper = 1.0f;
+        RdriveJoint.positionDamper = 50.0f;
 
         ConfigurableJoint joint = gameObject.GetComponent<ConfigurableJoint>();
         //Debug.Log("joint" + joint.angularXDrive.positionSpring);
 
-        if (!ragdoll && Main.GetComponent<Scr_EnemyAI>().timerT >= 3)
+        if (!ragdoll && Main.GetComponent<Scr_EnemyAI>().timerT >= 3) // When Enemy Is active and timer 
         {
             this.m_ConfigurableJoint.targetRotation = copyRotation();
             joint.angularXDrive = driveJoint;
             joint.angularYZDrive = driveJoint;
-
-
-
         }
         else
         {
