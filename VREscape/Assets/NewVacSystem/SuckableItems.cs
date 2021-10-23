@@ -6,67 +6,129 @@ using UnityEditor.XR.Interaction.Toolkit;
 public class SuckableItems : MonoBehaviour
 {
     public bool beingSucked;
-    public float speed = 3; // Suck Speed
+    public float speed = 6; // Suck Speed
     public GameObject target;
     public GameObject nozzle;
     public float i = 0.0f;
-
     // Start is called before the first frame update
     //sucking vars
     public bool sucking;
     public GameObject vacSucker;
+
+    public enum itemState
+    { 
+        Idle,
+        Following,
+        Shrink,
+        Grow,
+        hidden
+    };
+
+    public itemState ItemState;
     public void Start()
     {
-           
-           target = gameObject;
+        ItemState = itemState.Idle;
+        target = gameObject;
         nozzle = GameObject.Find("Nozzle");
     }
-
+    Collider objCollider;// = GetComponent<Collider>();
     // Update is called once per frame
-    public void FixedUpdate()
+    public void Update()
     {
+        objCollider = GetComponent<Collider>();
+        switch (ItemState)
+        {
+            case itemState.Idle:
+                
+                break;
+            case itemState.Following:
+
+
+                Sucked();
+                break;
+            case itemState.Shrink:
+                 Shrink(gameObject.transform.localScale, new Vector3(0, 0, 0), .5f);
+                beingSucked = true;
+                this.GetComponent<Rigidbody>().isKinematic = true;
+                break;
+            case itemState.Grow:
+                gameObject.SetActive(true);
+                Grow(new Vector3(0, 0, 0), new Vector3(1, 1, 1), .5f);
+                break;
+            case itemState.hidden:
+                beingSucked = false;
+                gameObject.SetActive(false);
+                break;
+
+        }
+
+
         beingSucked = false;
         i -= Time.deltaTime;
 
-        Vector3 relativePos = nozzle.transform.position - transform.position; // getting angle for shooting
+        
         sucking = nozzle.GetComponent<Scr_VacSucker>().sucking; // Bool State 
 
         // 
         if (beingSucked && sucking)
         {
-            Quaternion toRotation = Quaternion.LookRotation(relativePos);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 6 * Time.deltaTime);
+
             FollowTargetWithRotation(target.gameObject, nozzle.transform, speed);
         }
     }
     public void FollowTargetWithRotation(GameObject target, Transform endPos, float SuckSpeed)
     {
-        
-        Vector3 newPosition = target.transform.position;
-        float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, endPos.position, step);
-
+        float tempSpeed = 0;
+        if (!nozzle.GetComponent<Scr_VacSucker>().isFull)
+        {
+            Vector3 relativePos = nozzle.transform.position - transform.position; // getting angle for shooting
+            Quaternion toRotation = Quaternion.LookRotation(relativePos);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 2 * Time.deltaTime);
+            Vector3 newPosition = target.transform.position;
+            float step = tempSpeed + (speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, endPos.position, step);
+        }else { ItemState = SuckableItems.itemState.Idle; }
     }
-    public IEnumerator Shrink(GameObject item, Vector3 startScale, Vector3 targetScale, float duration)
+    public void Shrink(Vector3 startScale, Vector3 targetScale, float duration)
     {
-        StartCoroutine(ScaleToTargetCoroutine(startScale, targetScale, duration));
+        
+        objCollider.enabled = false;
+        StartCoroutine(ShrinkScaleToTargetCoroutine(startScale, targetScale, duration));
+        
 
-        yield return new WaitForSeconds(.5f); GameObject.Destroy(gameObject);
     }
     public void Sucked()
     {
-        beingSucked = true;
+        
         FollowTargetWithRotation(target.gameObject, nozzle.transform, speed);
     }
-    public void ScaleToTarget(Vector3 startScale, Vector3 targetScale, float duration)
+    public void Grow(Vector3 startScale, Vector3 targetScale, float duration)
     {
-        StartCoroutine(ScaleToTargetCoroutine(startScale,targetScale, duration));
+        objCollider.enabled = true;
+        //GrowShrink = true;
+        StartCoroutine(GrowScaleToTargetCoroutine(startScale,targetScale, duration)); 
     }
 
-    private IEnumerator ScaleToTargetCoroutine(Vector3 startScale, Vector3 targetScale, float duration)
+    public IEnumerator ShrinkScaleToTargetCoroutine(Vector3 startScale, Vector3 targetScale, float duration)
     {
         float timer = 0.0f;
-        while (timer < duration)
+        while (timer < duration)//
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            //smoother step algorithm
+            t = t * t * t * (t * (6f * t - 15f) + 10f);
+            transform.localScale = Vector3.Lerp(startScale, targetScale, t); Debug.Log("Bul Size Scaling up" + startScale + transform.localScale);
+            yield return null ; 
+        } 
+        yield return new WaitForSeconds(duration);
+        ItemState = SuckableItems.itemState.hidden;
+    }
+
+    public IEnumerator GrowScaleToTargetCoroutine(Vector3 startScale, Vector3 targetScale, float duration)
+    {
+        float timer = 0.0f;
+        while (timer < duration)//
         {
             timer += Time.deltaTime;
             float t = timer / duration;
@@ -75,6 +137,9 @@ public class SuckableItems : MonoBehaviour
             transform.localScale = Vector3.Lerp(startScale, targetScale, t); Debug.Log("Bul Size Scaling up" + startScale + transform.localScale);
             yield return null;
         }
-        yield return null;
+        yield return new WaitForSeconds(duration);
+        
+        ItemState = itemState.Idle;
     }
+
 }

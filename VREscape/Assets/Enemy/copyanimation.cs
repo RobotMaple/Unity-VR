@@ -6,7 +6,8 @@ public class copyanimation : MonoBehaviour
 {
     [SerializeField] private Transform targetLimb;
     [SerializeField] private ConfigurableJoint m_ConfigurableJoint;
-
+    public AudioClip HitSound;
+    public AudioSource RootSource;
     [SerializeField]
     public GameObject Main;
 
@@ -34,19 +35,19 @@ public class copyanimation : MonoBehaviour
         ragdoll = Main.GetComponent<Scr_EnemyAI>().ragdollP;
         //Config for when enemy is NOT in ragdoll state joints strength is active
         JointDrive driveJoint = new JointDrive();
-        driveJoint.positionSpring = 1000.0f;
-        driveJoint.maximumForce = 1000.0f;
+        driveJoint.positionSpring = 4000.0f;
+        driveJoint.maximumForce = 4000.0f;
         driveJoint.positionDamper = 50.0f;
         //Config for when enemy is in ragdoll state joints strength is lowered
         JointDrive RdriveJoint = new JointDrive();
-        RdriveJoint.positionSpring = 10.0f;
-        RdriveJoint.maximumForce = 10.0f;
+        RdriveJoint.positionSpring = 40.0f;
+        RdriveJoint.maximumForce = 40.0f;
         RdriveJoint.positionDamper = 50.0f;
 
         ConfigurableJoint joint = gameObject.GetComponent<ConfigurableJoint>();
         //Debug.Log("joint" + joint.angularXDrive.positionSpring);
 
-        if (!ragdoll && Main.GetComponent<Scr_EnemyAI>().timerT >= 3) // When Enemy Is active and timer 
+        if (!Main.GetComponent<Scr_EnemyAI>().AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Ragdoll")) // When Enemy Is active and timer 
         {
             this.m_ConfigurableJoint.targetRotation = copyRotation();
             joint.angularXDrive = driveJoint;
@@ -63,19 +64,21 @@ public class copyanimation : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         //Debug.Log("mag" + vel.magnitude); 
-
+       
         if (other.gameObject.layer == LayerMask.NameToLayer("item") && other.rigidbody.velocity.magnitude > 1.5f)
         {
-
-            Debug.Log("test " + ragdoll);
-
-
+            float audioLevel = other.relativeVelocity.magnitude / 10.0f;
+            RootSource.GetComponent<AudioSource>().PlayOneShot(HitSound, audioLevel);
             Main.GetComponent<Scr_EnemyAI>().GotHit();
 
 
 
         }
-        //Collider myCollider = collision.contacts[0].thisCollider;
+        if (other.rigidbody.velocity.magnitude > 0.5f)
+        {
+            float audioLevel = other.relativeVelocity.magnitude / 15.0f;
+            RootSource.GetComponent<AudioSource>().PlayOneShot(HitSound, audioLevel);
+        }        //Collider myCollider = collision.contacts[0].thisCollider;
     }
 
     private Quaternion copyRotation()

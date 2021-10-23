@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637558536784760970
-    m_Hash: 2631094162
+      ticks: 637702778925805587
+    m_Hash: 1764175641
   m_LockFileStatus:
     m_FilePath: E:/Unity2021-VR/Unity-VR/VREscape/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637656798694143043
-    m_Hash: 1432621072
+      ticks: 637702778943396021
+    m_Hash: 1690499956
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -80,6 +80,7 @@ m_PackageAssets:
         - 2.1.1
         - 2.2.1
         - 3.0.0-pre.2
+        - 3.0.0
         compatible:
         - 2.0.2
         - 2.1.0
@@ -166,6 +167,7 @@ m_PackageAssets:
         - 1.0.2
         - 1.0.3
         - 1.1.0
+        - 1.1.1
         compatible:
         - 0.1.2-preview
         - 0.1.4-preview
@@ -181,6 +183,7 @@ m_PackageAssets:
         - 1.0.2
         - 1.0.3
         - 1.1.0
+        - 1.1.1
         verified: 1.0.3
       dependencies:
       - name: com.unity.burst
@@ -269,6 +272,10 @@ m_PackageAssets:
         - 1.7.1
         - 1.8.0
         - 1.9.0
+        - 1.10.2
+        - 1.11.2
+        - 1.12.5
+        - 1.13.5
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -285,6 +292,8 @@ m_PackageAssets:
         - 1.5.7
         - 1.6.0
         - 1.8.0
+        - 1.10.2
+        - 1.12.5
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -546,6 +555,7 @@ m_PackageAssets:
         - 1.2.1
         - 1.2.2
         - 1.2.3
+        - 1.2.4
         compatible:
         - 1.0.2
         - 1.0.3
@@ -558,7 +568,8 @@ m_PackageAssets:
         - 1.2.1
         - 1.2.2
         - 1.2.3
-        verified: 1.2.3
+        - 1.2.4
+        verified: 1.2.4
       dependencies: []
       resolvedDependencies: []
       keywords: []
@@ -581,6 +592,91 @@ m_PackageAssets:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.vscode.git
         revision: b5ec9b38109e52b1b26597d521e4df75e042ebb9
+        path: 
+    - packageId: com.unity.postprocessing@2.3.0
+      testable: 0
+      isDirectDependency: 1
+      version: 2.3.0
+      source: 1
+      resolvedPath: E:\Unity2021-VR\Unity-VR\VREscape\Library\PackageCache\com.unity.postprocessing@2.3.0
+      assetPath: Packages/com.unity.postprocessing
+      name: com.unity.postprocessing
+      displayName: Post Processing
+      author:
+        name: 
+        email: 
+        url: 
+      category: 
+      type: 
+      description: The post-processing stack (v2) comes with a collection of effects
+        and image filters you can apply to your cameras to improve the visuals of
+        your games.
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 0.1.7
+        - 0.1.8
+        - 2.0.0-beta
+        - 2.0.1-beta
+        - 2.0.2-preview
+        - 2.0.3-preview
+        - 2.0.5-preview
+        - 2.0.7-preview
+        - 2.0.8-preview
+        - 2.0.9-preview
+        - 2.0.10-preview
+        - 2.0.11-preview
+        - 2.0.12-preview
+        - 2.0.13-preview
+        - 2.0.14-preview
+        - 2.0.15-preview
+        - 2.0.16-preview
+        - 2.0.17-preview
+        - 2.1.0
+        - 2.1.1
+        - 2.1.2
+        - 2.1.3
+        - 2.1.4
+        - 2.1.5
+        - 2.1.6
+        - 2.1.7
+        - 2.2.1
+        - 2.2.2
+        - 2.3.0
+        - 3.0.1
+        - 3.0.3
+        - 3.1.0
+        - 3.1.1
+        compatible:
+        - 2.3.0
+        - 3.0.1
+        - 3.0.3
+        - 3.1.0
+        - 3.1.1
+        verified: 2.3.0
+      dependencies: []
+      resolvedDependencies: []
+      keywords: []
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637144563160000000
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: git@github.com:Unity-Technologies/PostProcessing.git
+        revision: e6de985c41f04a5fc7c7227dd67e3e73fac834e7
         path: 
     - packageId: com.unity.probuilder@4.4.0
       testable: 0
@@ -861,6 +957,7 @@ m_PackageAssets:
         - 10.5.0
         - 10.5.1
         - 10.6.0
+        - 10.7.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -1028,6 +1125,7 @@ m_PackageAssets:
         - 10.5.0
         - 10.5.1
         - 10.6.0
+        - 10.7.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -1119,6 +1217,7 @@ m_PackageAssets:
         - 1.1.26
         - 1.1.27
         - 1.1.29
+        - 1.1.30
         compatible:
         - 1.1.19
         - 1.1.20
@@ -1127,7 +1226,8 @@ m_PackageAssets:
         - 1.1.26
         - 1.1.27
         - 1.1.29
-        verified: 1.1.29
+        - 1.1.30
+        verified: 1.1.30
       dependencies:
       - name: com.unity.ext.nunit
         version: 1.0.5
@@ -1613,6 +1713,7 @@ m_PackageAssets:
         - 1.0.0-pre.3
         - 1.0.0-pre.4
         - 1.0.0-pre.5
+        - 1.0.0-pre.6
         compatible:
         - 0.0.6-preview
         - 0.9.0-preview
@@ -1626,6 +1727,7 @@ m_PackageAssets:
         - 1.0.0-pre.3
         - 1.0.0-pre.4
         - 1.0.0-pre.5
+        - 1.0.0-pre.6
         verified: 
       dependencies:
       - name: com.unity.inputsystem
@@ -1836,6 +1938,7 @@ m_PackageAssets:
         - 1.10.0-preview.1
         - 1.10.0-preview.2
         - 1.10.0
+        - 1.10.1-preview.3
         compatible:
         - 1.6.1
         - 1.7.0-preview.1
@@ -1848,6 +1951,7 @@ m_PackageAssets:
         - 1.10.0-preview.1
         - 1.10.0-preview.2
         - 1.10.0
+        - 1.10.1-preview.3
         verified: 1.6.1
       dependencies:
       - name: com.unity.xr.management
@@ -2039,6 +2143,7 @@ m_PackageAssets:
         - 2.6.1
         - 2.7.0
         - 2.8.0
+        - 2.9.0
         - 3.0.0
         - 3.0.1-preview.3
         - 3.0.1-preview.4
@@ -2058,6 +2163,7 @@ m_PackageAssets:
         - 4.4.1
         - 4.4.2
         - 4.5.0
+        - 4.6.0
         - 5.0.0
         - 5.1.0-exp.1
         - 5.1.0
@@ -2065,6 +2171,7 @@ m_PackageAssets:
         - 5.2.1
         - 5.2.2
         - 5.3.0
+        - 5.4.1
         compatible:
         - 4.2.1
         - 4.3.2
@@ -4015,6 +4122,8 @@ m_PackageAssets:
         - 4.2.0-pre.9
         - 4.2.0-pre.10
         - 4.2.0-pre.12
+        - 4.2.0
+        - 4.2.1
         compatible:
         - 4.0.8
         - 4.0.9
@@ -4139,6 +4248,7 @@ m_PackageAssets:
         - 4.0.7
         - 4.1.0-pre.1
         - 4.1.0-pre.2
+        - 4.1.0
         compatible:
         - 3.2.13
         - 3.2.15
@@ -4154,6 +4264,7 @@ m_PackageAssets:
         - 4.0.7
         - 4.1.0-pre.1
         - 4.1.0-pre.2
+        - 4.1.0
         verified: 3.2.17
       dependencies:
       - name: com.unity.modules.subsystems
@@ -4255,9 +4366,11 @@ m_PackageAssets:
         - 1.0.1
         - 1.0.2
         - 1.1.0-pre.5
+        - 1.1.0-pre.6
         - 1.1.0-preview.1
         - 1.1.0-preview.2
         - 1.1.0-preview.3
+        - 1.1.1
         compatible:
         - 0.1.2-preview
         - 0.2.0-preview
@@ -4284,9 +4397,11 @@ m_PackageAssets:
         - 1.0.1
         - 1.0.2
         - 1.1.0-pre.5
+        - 1.1.0-pre.6
         - 1.1.0-preview.1
         - 1.1.0-preview.2
         - 1.1.0-preview.3
+        - 1.1.1
         verified: 1.0.2
       dependencies: []
       resolvedDependencies: []
@@ -4498,6 +4613,7 @@ m_PackageAssets:
         - 10.5.0
         - 10.5.1
         - 10.6.0
+        - 10.7.0
         compatible:
         - 10.2.2
         verified: 10.2.2
@@ -4567,6 +4683,7 @@ m_PackageAssets:
         - 4.3.2
         - 4.6.0-preview
         - 4.7.0-preview
+        - 4.9.1
         compatible:
         - 4.0.0-preview
         - 4.0.0
@@ -4582,6 +4699,7 @@ m_PackageAssets:
         - 4.3.2
         - 4.6.0-preview
         - 4.7.0-preview
+        - 4.9.1
         verified: 4.3.2
       dependencies: []
       resolvedDependencies: []
@@ -4787,6 +4905,9 @@ m_PackageAssets:
         - 1.5.6
         - 1.6.0-pre.2
         - 1.6.0-pre.3
+        - 1.6.0-pre.4
+        - 1.6.0
+        - 1.6.1
         compatible:
         - 1.1.1
         - 1.1.2
@@ -4859,6 +4980,9 @@ m_PackageAssets:
         - 1.5.6
         - 1.6.0-pre.2
         - 1.6.0-pre.3
+        - 1.6.0-pre.4
+        - 1.6.0
+        - 1.6.1
         verified: 1.4.11
       dependencies:
       - name: com.unity.mathematics
@@ -5079,6 +5203,7 @@ m_PackageAssets:
         - 1.1.0-preview.1
         - 1.1.0
         - 1.2.1
+        - 1.2.4
         compatible:
         - 0.0.12-preview.2
         - 0.0.12-preview.5
@@ -5094,7 +5219,8 @@ m_PackageAssets:
         - 1.1.0-preview.1
         - 1.1.0
         - 1.2.1
-        verified: 1.2.1
+        - 1.2.4
+        verified: 1.2.4
       dependencies: []
       resolvedDependencies: []
       keywords:

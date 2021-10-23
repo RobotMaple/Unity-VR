@@ -26,21 +26,36 @@ public class Scr_VacShooter : MonoBehaviour
     public float shootTimer = 2.0f;
     public float targetTime = 0.0f;
     public float speed = 20;
-
+    public ParticleSystem shootParticle;
     //Currentarrow.Vacbag[0] obj temp vars
     public GameObject bul;
     public GameObject b;
     public Transform barrel;
     public Scr_VacSucker Currentarrow;// = VacBag.GetComponent<Scr_VacSucker>();
+    //next in mag
+    public GameObject Mag;
+    public GameObject Nextitems;
+    public AudioSource shootClipSource,ClipSource;
     private void Start()
     {
+        ClipSource.Play();
         Currentarrow = VacBag.GetComponent<Scr_VacSucker>();
         lr = GetComponent<LineRenderer>();
         Physics.IgnoreLayerCollision(7, 3);
     }
-    
+
     public void Update()
     {
+        showNext(Currentarrow.Vacbag[0]);
+
+        if (!inHand)
+        {
+            transform.rotation = Quaternion.identity;
+            Transform Targetpos = rightHolster.transform;
+            transform.position = Targetpos.position;
+        }
+
+            
         
         /*Charging*/
         if (charging)
@@ -57,7 +72,7 @@ public class Scr_VacShooter : MonoBehaviour
                     charge = maxCharge;
                 } 
             }
-        }
+        }else { if (ClipSource.volume != 0) { StartCoroutine(AudioFade.StartFade(ClipSource, .2f, 0f)); }  }
 
         if (fired)
         { 
@@ -90,17 +105,12 @@ public class Scr_VacShooter : MonoBehaviour
         else { lr.enabled = false; }
         #endregion
         /*In Hand*/
-        if (!inHand)
-        {
-            transform.rotation = Quaternion.identity;
-            Transform Targetpos = rightHolster.transform;
-            transform.position = Targetpos.position;
-        }
+
 
         /*Gun Delay*/
         targetTime -= Time.deltaTime;
         i -= Time.deltaTime;
-
+        
     }
     public static void RemoveAt(GameObject[] arr, int index)
     {
@@ -123,12 +133,39 @@ public class Scr_VacShooter : MonoBehaviour
         inHand = false;
     }
 
+    public void showNext(GameObject item)
+    {
+        if (Currentarrow.Vacbag[0] != null)
+        {
+
+
+
+            Nextitems = item;
+            MeshFilter Items = Nextitems.GetComponent<MeshFilter>();
+            Mag.GetComponent<MeshFilter>().mesh = Items.mesh;
+            Mag.transform.localScale = new Vector3(.15f, .15f, .15f);
+            Mag.GetComponent<MeshRenderer>().material = Nextitems.GetComponent<MeshRenderer>().material;
+            Mag.transform.Rotate(1f, 1f, 1f);
+            Nextitems = null;
+        }
+        else {
+
+            Nextitems = item;
+            MeshFilter Items = null;
+            Mag.GetComponent<MeshFilter>().mesh = null;
+            Mag.transform.localScale = new Vector3(.15f, .15f, .15f);
+            Mag.GetComponent<MeshRenderer>().material = null;
+            Nextitems = null;
+
+        }
+    }
+
     public void chargingUp() // 
     {
         laser = true;
-        
 
-            charging = true;
+        StartCoroutine(AudioFade.StartFade(ClipSource, 1f, .5f));
+        charging = true;
             
             if (Currentarrow.Vacbag[0] != null)
             {
@@ -136,16 +173,17 @@ public class Scr_VacShooter : MonoBehaviour
                 //Storing Scale of item
                // Vector3 itemSize 
                 // Currentarrow.Vacbag[0].transform.localScale = new Vector3(0, 0, 0);
-                //i = 1.0f;
+                //i = 1.0f;//
                 Debug.Log("Shooting: " + Currentarrow.Vacbag[0].gameObject.name);
                // SuckableItems Currentarrow.Vacbag[0] = Currentarrow.Vacbag[0].GetComponent<SuckableItems>();
                
                 //GameObject.Destroy(Currentarrow.Vacbag[0]);
                  // removes Color.white.
 
-                Vector3 itemSize = Currentarrow.Vacbag[0].transform.localScale;
-                Currentarrow.Vacbag[0].SetActive(enabled);
-                Currentarrow.Vacbag[0].GetComponent<SuckableItems>().ScaleToTarget(new Vector3(0, 0, 0), itemSize, .5f); // GROW Feature
+                Vector3 itemSize = new Vector3(1,1,1);
+                Currentarrow.Vacbag[0].SetActive(true);
+                Currentarrow.Vacbag[0].GetComponent<SuckableItems>().ItemState = SuckableItems.itemState.Grow;
+                //Currentarrow.Vacbag[0].GetComponent<SuckableItems>().Grow(new Vector3(0, 0, 0), itemSize, .5f); // GROW Feature
                 Currentarrow.Vacbag[0].GetComponent<Rigidbody>().isKinematic = true;
                
                 
@@ -157,7 +195,7 @@ public class Scr_VacShooter : MonoBehaviour
 
     public void release()
     {
-
+        StartCoroutine(AudioFade.StartFade(ClipSource, .2f, 0f));
         laser = false;
         if (Currentarrow.Vacbag[0] != null)
         {
@@ -169,6 +207,11 @@ public class Scr_VacShooter : MonoBehaviour
                 Debug.Log("Charge: " + charge);
                 charge = 0.0f;
                 i = 1.0f;//
+            
+        }
+        if (Currentarrow.Vacbag[0]!= null)
+        {
+           
         }
     }
     public void Fire(GameObject item, float charge)
@@ -186,6 +229,9 @@ public class Scr_VacShooter : MonoBehaviour
         Array.Resize(ref Currentarrow.Vacbag, Currentarrow.Vacbag.Length - 1);
         Array.Resize(ref Currentarrow.Vacbag, Currentarrow.Vacbag.Length + 1);
         targetTime = shootTimer;
+        shootClipSource.Play();
+        shootClipSource.volume = charge / maxCharge;
+        shootParticle.Play();
     }
 
     public void ScaleToTarget(Vector3 targetScale, float duration)

@@ -14,8 +14,9 @@ public class ScrEnemy : MonoBehaviour
         Vector3 direction = target.position - transform.position;
         if (target.GetComponent<Scr_GuideSystem>().target != null)
         {
-            Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
-            transform.rotation = rot;
+            transform.rotation = Quaternion.LookRotation(direction);
+            // Quaternion rot = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), speed * Time.deltaTime);
+            // transform.rotation = rot;
         }
         //Apply the rotation 
 
